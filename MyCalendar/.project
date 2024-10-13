@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>test3</name>
+	<name>MyCalendar</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -15,15 +15,9 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>ch.acanda.eclipse.pmd.builder.PMDBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
-		<nature>ch.acanda.eclipse.pmd.builder.PMDNature</nature>
 	</natures>
 </projectDescription>
