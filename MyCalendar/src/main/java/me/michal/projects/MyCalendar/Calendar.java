@@ -12,18 +12,21 @@ import java.util.TreeMap;
  * Events are stored in a TreeMap for efficient retrieval and checking.
  */
 public class Calendar {
-	private final TreeMap<Integer, Integer> events;
-	private final List<Task> eventData;
-	public List<Task> getEventData(){return eventData;}
+  private final TreeMap<Integer, Integer> events;
+  private final List<Task> eventData;
+  
+  public List<Task> getEventData() {
+    return eventData;
+  }
 	
 	 /**
      * Constructor to create a new Calendar object.
      * Initializes an empty TreeMap for events and an empty list for event data.
      */
-	public Calendar() {
-		events = new TreeMap<>();
-		eventData = new ArrayList<>();
-	}
+  public Calendar() {
+    events = new TreeMap<>();
+    eventData = new ArrayList<>();
+  }
 	
 	/**
      * Books a new event in the calendar.
@@ -34,44 +37,44 @@ public class Calendar {
      * @param name   The name of the event.
      * @throws IllegalArgumentException If the time slot is not available.
      */
-	public void book(final LocalDateTime start, final LocalDateTime finish, final String name) {
-		if(!checkIfAvailable(start, finish)) {
-			throw new IllegalArgumentException("you already have an event scheduled at this time!");
-		}
-		events.put(Utils.encodeDateTime(start), Utils.encodeDateTime(finish));
-		eventData.add(new Task(name, start, finish));
-	}
+  public void book(final LocalDateTime start, final LocalDateTime finish, final String name) {
+    if (!checkIfAvailable(start, finish)) {
+      throw new IllegalArgumentException("you already have an event scheduled at this time!");
+    }
+    events.put(Utils.encodeDateTime(start), Utils.encodeDateTime(finish));
+    eventData.add(new Task(name, start, finish));
+  }
 	
-	 /**
-     * Checks if a given time slot is available for booking.
-     * Ensures that there is no overlap with existing events.
-     * 
-     * @param start The proposed start date and time of the event.
-     * @param end   The proposed end date and time of the event.
-     * @return true if the time slot is available; false otherwise.
-     */
-	public boolean checkIfAvailable(final LocalDateTime start, final LocalDateTime end) {
-	 	final int startEncoded = Utils.encodeDateTime(start);
-        final int endEncoded = Utils.encodeDateTime(end);
+  /**
+   * Checks if a given time slot is available for booking.
+   * Ensures that there is no overlap with existing events.
+   * 
+   * @param start The proposed start date and time of the event.
+   * @param end   The proposed end date and time of the event.
+   * @return true if the time slot is available; false otherwise.
+   */
+  public boolean checkIfAvailable(final LocalDateTime start, final LocalDateTime end) {
+    final int startEncoded = Utils.encodeDateTime(start);
+    final int endEncoded = Utils.encodeDateTime(end);
 
-        // Ensure the start time is before the end time
-        if (startEncoded >= endEncoded) {
-            return false;
-        }
+    // Ensure the start time is before the end time
+    if (startEncoded >= endEncoded) {
+      return false;
+    }
 
-        // Check if there is a conflict with existing events
-        final Map.Entry<Integer, Integer> lower = events.floorEntry(startEncoded); // Get the event just before the new one
-        final Map.Entry<Integer, Integer> higher = events.ceilingEntry(startEncoded); // Get the event just after the new one
+    // Check if there is a conflict with existing events
+    final Map.Entry<Integer, Integer> lower = events.floorEntry(startEncoded); 
+    final Map.Entry<Integer, Integer> higher = events.ceilingEntry(startEncoded); 
 
-        // If lower event exists, ensure it doesn't overlap
-        if (lower != null && lower.getValue() > startEncoded) {
-            return false;
-        }
+    // If lower event exists, ensure it doesn't overlap
+    if  (lower != null && lower.getValue() > startEncoded) {
+      return false;
+    }
 
-        // If higher event exists, ensure it doesn't overlap
-        return higher==null||higher.getKey()>=endEncoded;
+    // If higher event exists, ensure it doesn't overlap
+    return higher == null || higher.getKey() >= endEncoded;
   
-	}
+  }
 	
 	/**
      * Checks if a specific event exists within a given time range.
@@ -80,19 +83,18 @@ public class Calendar {
      * @param endDate   The end date and time of the event.
      * @return true if an event exists in the given time range; false otherwise.
      */
-	public boolean hasEvent(final LocalDateTime startDate, final LocalDateTime endDate) {
-		final int start = Utils.encodeDateTime(startDate);
-		final int end = Utils.encodeDateTime(endDate);
-		return events.containsKey(start) && events.get(start)==end;
-	}
+  public boolean hasEvent(final LocalDateTime startDate, final LocalDateTime endDate) {
+    final int start = Utils.encodeDateTime(startDate);
+    final int end = Utils.encodeDateTime(endDate);
+    return events.containsKey(start) && events.get(start) == end;
+  }
 	
 	/**
      * Displays all scheduled events by calling the display method of each Task.
      */
-	public void displayEvents() {
-       for(final Task task: eventData) {
-    	   task.display();
-       }
-	}
-
+  public void displayEvents() {
+    for (final Task task : eventData) {
+      task.display();
+    }
+  }
 }
